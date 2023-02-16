@@ -9,7 +9,7 @@ export default new Array(30).fill({
     'Credito'
   ]
 }).map((elem, index) => ({
-  ...elem, 
+  ...elem,
   id: index + 1,
   type: index % 2 ? 'income' : 'spent',
 }))

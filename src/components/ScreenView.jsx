@@ -1,34 +1,24 @@
 import React from 'react';
 import Constants from 'expo-constants';
-import { SafeAreaView , ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { Appbar } from 'react-native-paper';
-import RecordsFilters from './modals/RecordsFilters';
 
 function ScreenView (props) {
-  const [filterVisible, setFilterVisible] = React.useState(false);
-
   const {
     children,
     title,
-    addComponent,
-    filterButton,
-    addButton
+    actionButtons
   } = props
 
   return (
     <>
       <Appbar.Header>
         <Appbar.Content title={title || 'Undefined'} />
-        { filterButton && <Appbar.Action icon="filter-menu" onPress={() => setFilterVisible(!filterVisible)} /> }
-        { addButton && <Appbar.Action icon="plus" onPress={() => {}} /> }
+        { actionButtons }
       </Appbar.Header>
-
       <ScrollView style={styles.scrollView}>
         {children}
       </ScrollView>
-
-      { <RecordsFilters visible={filterVisible} onHide={() => setFilterVisible(false) } /> }
-      { addComponent }
     </>
   );
 }

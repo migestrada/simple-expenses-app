@@ -1,18 +1,22 @@
 import React from "react";
 import { List, Chip, Text, Divider } from 'react-native-paper';
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableHighlight } from "react-native";
 
-function RecordItem({ item }) {
+function RecordItem(props) {
   const {
-    id,
-    amount,
-    type,
-    date,
-    account,
-    description,
-    category,
-    labels
-  } = item;
+    item,
+    item: {
+      id,
+      amount,
+      type,
+      date,
+      account,
+      description,
+      category,
+      labels
+    },
+    editRecord
+  } = props;
 
   const getTypeInfo = () => {
     if (type === 'spent') {
@@ -32,16 +36,17 @@ function RecordItem({ item }) {
     }
   }
 
-  const { 
+  const {
     color,
     icon,
-    symbol 
+    symbol
   } = getTypeInfo()
 
   return (
     <>
       <List.Item
-        id={id}
+        onPress={() => editRecord(item)}
+        key={id}
         title={() => <>
           <View style={styles.container}>
             <Text variant="titleLarge" style={{ color }}>{category}</Text>
@@ -49,19 +54,28 @@ function RecordItem({ item }) {
           </View>
         </>
         }
-        description={() => <View>
-          <View style={styles.container}>
-            <Text variant="bodyLarge">{description}</Text>
-            <Text variant="bodyLarge">{date}</Text>
-          </View>
-          <View style={styles.chipList}>
-            {
-              labels.map(label => <>
-                <Chip onPress={() => console.log('Pressed')}>{label}</Chip>
-              </>)
-            }
-          </View>
-        </View>}
+        description={() => (
+          <>
+            <View>
+              <View style={styles.container}>
+                <Text variant="bodyLarge">{description}</Text>
+                <Text variant="bodyLarge">{date}</Text>
+              </View>
+              <View style={styles.chipList}>
+                {
+                  labels.map((label) => (
+                    <Chip
+                      key={`record-description-chip-${id}-${label}`}
+                      onPress={() => console.log('Pressed')}
+                    >
+                      {label}
+                    </Chip>
+                  ))
+                }
+              </View>
+            </View>
+          </>
+        )}
         left={props => <List.Icon {...props} color={color} icon={icon} />}
       />
       <Divider style={styles.divider}/>
